@@ -102,7 +102,7 @@ The React app is not a second authority. It does not hold database credentials o
 | --- | --- |
 | Separation | One lawyer per account. Every query filters by that user id. |
 | Time | Store UTC. Show and compute "evening before" in Asia/Kolkata. |
-| Files | 20 MB. pdf, doc, docx, jpg, png, txt. |
+| Files | 20 MB. PDF only. |
 | Reminders | At least once, with a status transition so a retry does not double-send after success. A crash during send may send twice; the copy is the same hearing, to the same lawyer. |
 | Availability | Single instance. A missed minute is recovered on the next tick because the query is "due and not yet sent". |
 | Privacy | Case papers and client phones belong to one lawyer. Downloads are not public URLs that live forever. |

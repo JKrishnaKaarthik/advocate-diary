@@ -136,9 +136,9 @@ func TestPracticeFlow(t *testing.T) {
 	if os.Getenv("S3_BUCKET") == "" {
 		return
 	}
-	doc := a.upload(t, "/api/cases/"+caseID+"/documents", "note.txt", "text/plain", "petition", []byte("grounds of petition"))
+	doc := a.upload(t, "/api/cases/"+caseID+"/documents", "note.pdf", "application/pdf", "petition", []byte("%PDF-1.4 grounds of petition"))
 	got := a.do(t, http.MethodGet, "/api/documents/"+doc["id"].(string), nil, http.StatusOK)
-	if !strings.Contains(got["url"].(string), "note.txt") && got["url"] == "" {
+	if !strings.Contains(got["url"].(string), "note.pdf") && got["url"] == "" {
 		t.Fatalf("download %#v", got)
 	}
 	b.do(t, http.MethodGet, "/api/documents/"+doc["id"].(string), nil, http.StatusNotFound)

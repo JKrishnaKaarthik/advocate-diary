@@ -156,7 +156,7 @@ export function CasePage() {
       <form className="card inline" noValidate onSubmit={upload} onInput={uploadFields.onInput} onChange={uploadFields.onInput}>
         <label>
           File
-          <input data-testid="upload-file" name="file" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt" />
+          <input data-testid="upload-file" name="file" type="file" accept=".pdf,application/pdf" />
           <FieldHint field="file" text={uploadFields.hints.file} />
         </label>
         <label>Label<select data-testid="upload-label" name="label" defaultValue="other">{labels.map((label) => <option key={label}>{label}</option>)}</select></label>

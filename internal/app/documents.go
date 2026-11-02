@@ -159,20 +159,7 @@ func safeName(name string) string {
 func storedType(filename, contentType string) string {
 	media, _, err := mime.ParseMediaType(contentType)
 	if err != nil || media == "" || strings.EqualFold(media, "application/octet-stream") {
-		switch strings.ToLower(filepath.Ext(filename)) {
-		case ".pdf":
-			return "application/pdf"
-		case ".doc":
-			return "application/msword"
-		case ".docx":
-			return "application/vnd.openxmlformats-officedocument.wordprocessingml.document"
-		case ".jpg", ".jpeg":
-			return "image/jpeg"
-		case ".png":
-			return "image/png"
-		default:
-			return "text/plain"
-		}
+		return "application/pdf"
 	}
 	return media
 }

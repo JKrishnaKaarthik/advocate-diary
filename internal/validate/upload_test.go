@@ -12,14 +12,17 @@ func TestEmail(t *testing.T) {
 }
 
 func TestCheckFile(t *testing.T) {
-	if err := CheckFile("note.txt", "text/plain", 4); err != nil {
+	if err := CheckFile("note.pdf", "application/pdf", 4); err != nil {
 		t.Fatal(err)
 	}
-	if err := CheckFile("note.txt", "application/octet-stream", 4); err != nil {
+	if err := CheckFile("note.pdf", "application/octet-stream", 4); err != nil {
 		t.Fatal(err)
 	}
-	if err := CheckFile("note.txt", "image/png", 4); err == nil {
+	if err := CheckFile("note.pdf", "image/png", 4); err == nil {
 		t.Fatal("mismatched type was accepted")
+	}
+	if err := CheckFile("note.txt", "text/plain", 4); err == nil {
+		t.Fatal("txt was accepted")
 	}
 	if err := CheckFile("run.exe", "application/octet-stream", 4); err == nil {
 		t.Fatal("exe was accepted")

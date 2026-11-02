@@ -16,6 +16,7 @@ export function checkFields(form: HTMLFormElement, rules: Rule[]): Record<string
     if (rule.file) {
       const file = data.get(rule.name);
       if (!(file instanceof File) || file.size === 0) out[rule.name] = "Choose a file to upload";
+      else if (!file.name.toLowerCase().endsWith(".pdf")) out[rule.name] = "Only PDF files are allowed";
       continue;
     }
     const value = String(data.get(rule.name) ?? "").trim();

@@ -98,6 +98,11 @@ public class CasePage extends BasePage {
     return shown(fileInput) && shown(labelSelect) && shown(uploadButton);
   }
 
+  public boolean acceptsPdfOnly() {
+    String accept = visible(fileInput).getAttribute("accept");
+    return accept != null && accept.contains("pdf") && !accept.contains(".txt") && !accept.contains(".doc");
+  }
+
   public CasePage chooseFile(Path file) {
     visible(fileInput).sendKeys(file.toAbsolutePath().toString());
     pause(600);

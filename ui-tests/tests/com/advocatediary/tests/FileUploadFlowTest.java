@@ -8,12 +8,13 @@ import org.testng.Assert;
 import org.testng.annotations.Test;
 
 public class FileUploadFlowTest extends BaseTest {
-  private static final String FILE_NAME = "grounds-of-petition.txt";
+  private static final String FILE_NAME = "grounds-of-petition.pdf";
 
   @Test
   public void uploadWithoutFileShowsChooseAFile() {
     CasePage matter = openCasePage();
     Assert.assertTrue(matter.showsFileUpload());
+    Assert.assertTrue(matter.acceptsPdfOnly());
     matter.clickUpload();
     Assert.assertTrue(matter.showsFileRequired());
   }

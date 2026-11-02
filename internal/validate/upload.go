@@ -10,13 +10,7 @@ import (
 const MaxBytes = 20 * 1024 * 1024
 
 var types = map[string]string{
-	".pdf":  "application/pdf",
-	".doc":  "application/msword",
-	".docx": "application/vnd.openxmlformats-officedocument.wordprocessingml.document",
-	".jpg":  "image/jpeg",
-	".jpeg": "image/jpeg",
-	".png":  "image/png",
-	".txt":  "text/plain",
+	".pdf": "application/pdf",
 }
 
 func CheckFile(name, contentType string, size int64) error {
@@ -29,7 +23,7 @@ func CheckFile(name, contentType string, size int64) error {
 	ext := strings.ToLower(filepath.Ext(filepath.Base(name)))
 	want, ok := types[ext]
 	if !ok {
-		return errors.New("File type is not allowed")
+		return errors.New("Only PDF files are allowed")
 	}
 	media := strings.TrimSpace(contentType)
 	if media == "" || strings.EqualFold(media, "application/octet-stream") {
