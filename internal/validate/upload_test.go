@@ -11,6 +11,15 @@ func TestEmail(t *testing.T) {
 	}
 }
 
+func TestLabel(t *testing.T) {
+	if !Label("petition") || !Label("order") {
+		t.Fatal("allowed paper label rejected")
+	}
+	if Label("invoice") {
+		t.Fatal("unknown paper label accepted")
+	}
+}
+
 func TestCheckFile(t *testing.T) {
 	if err := CheckFile("note.txt", "text/plain", 4); err != nil {
 		t.Fatal(err)

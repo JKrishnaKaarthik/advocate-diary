@@ -30,6 +30,10 @@ npm run dev
 
 Then open http://localhost:5173. The React app proxies `/api` to the Go server.
 
+## Pull request checks
+
+Every pull request to `main` runs two GitHub Actions jobs: `go-test` against Postgres, and `ui-regression` (headless Selenium against the Docker stack on http://localhost:8080).
+
 The design is in [docs/hld.md](docs/hld.md) and [docs/lld.md](docs/lld.md).
 
 | Document | What it answers |
