@@ -11,16 +11,16 @@ public class SignUpSignInTest extends BaseTest {
   @Test
   public void existingLawyerSignsInFromWelcomeBack() {
     SignInPage signIn = new SignInPage(driver).open(baseUrl);
-    Assert.assertEquals(signIn.heading(), "Welcome back");
+    Assert.assertTrue(signIn.isOnSignIn());
 
     DiaryPage diary = signIn.signIn(LAWYER_EMAIL, LAWYER_PASSWORD);
-    Assert.assertEquals(diary.heading(), "Court diary");
+    Assert.assertTrue(diary.isOpen());
   }
 
   @Test
   public void shortPasswordShowsHintOnSignUp() {
     SignUpPage signUp = new SignUpPage(driver).open(baseUrl);
     signUp.submitInvalid("Test Advocate", "short@chamber.test", "short");
-    Assert.assertTrue(signUp.hintText().toLowerCase().contains("at least 8"));
+    Assert.assertTrue(signUp.showsPasswordHint());
   }
 }

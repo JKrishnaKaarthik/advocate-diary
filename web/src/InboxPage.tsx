@@ -32,7 +32,14 @@ export function InboxPage() {
           <h2>{week.title}</h2>
           <div className="board">
             {week.rows.map((row) => (
-              <article key={row.id} className="hearing-card" data-testid="inbox-hearing">
+              <article
+                key={row.id}
+                className="hearing-card"
+                data-testid="inbox-hearing"
+                data-client={row.client_name}
+                data-title={row.title}
+                data-case-number={row.case_number}
+              >
                 <header className="card-top">
                   <time>{shortWhen(row.scheduled_at)}</time>
                   <span className="pill">{row.case_type}</span>

@@ -26,7 +26,7 @@ public class FileUploadFlowTest extends BaseTest {
     Assert.assertTrue(matter.showsFileUpload(), "File, Label, and Upload should show under Papers");
 
     matter.clickUpload();
-    Assert.assertTrue(matter.showsChooseAFileHint());
+    Assert.assertTrue(matter.showsFileRequired());
   }
 
   @Test

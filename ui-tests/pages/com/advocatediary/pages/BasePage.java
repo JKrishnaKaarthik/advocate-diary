@@ -67,4 +67,24 @@ public abstract class BasePage {
   public String currentUrl() {
     return driver.getCurrentUrl();
   }
+
+  protected static By testId(String id) {
+    return By.cssSelector("[data-testid='" + id + "']");
+  }
+
+  protected static By marked(String id, String... nameValues) {
+    StringBuilder css = new StringBuilder("[data-testid='").append(id).append("']");
+    for (int i = 0; i + 1 < nameValues.length; i += 2) {
+      css.append('[')
+          .append(nameValues[i])
+          .append("='")
+          .append(nameValues[i + 1].replace("\\", "\\\\").replace("'", "\\'"))
+          .append("']");
+    }
+    return By.cssSelector(css.toString());
+  }
+
+  protected boolean hintShown(String field) {
+    return shown(testId("hint-" + field));
+  }
 }

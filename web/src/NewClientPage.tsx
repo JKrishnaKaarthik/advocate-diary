@@ -46,19 +46,19 @@ export function NewClientPage() {
       <form className="card stack" noValidate onSubmit={onSubmit} onInput={fields.onInput}>
         <label>
           Name
-          <input name="full_name" autoFocus />
-          <FieldHint text={fields.hints.full_name} />
+          <input data-testid="client-name" name="full_name" autoFocus />
+          <FieldHint field="full_name" text={fields.hints.full_name} />
         </label>
         <div className="split">
-          <label>Phone<input name="phone" /></label>
+          <label>Phone<input data-testid="client-phone" name="phone" /></label>
           <label>
             Email
-            <input name="email" type="email" />
-            <FieldHint text={fields.hints.email} />
+            <input data-testid="client-email" name="email" type="email" />
+            <FieldHint field="email" text={fields.hints.email} />
           </label>
         </div>
-        <label>Address<input name="address" /></label>
-        <label>Notes<textarea name="notes" rows={3} /></label>
+        <label>Address<input data-testid="client-address" name="address" /></label>
+        <label>Notes<textarea data-testid="client-notes" name="notes" rows={3} /></label>
         {error ? <p className="error">{error}</p> : null}
         <div className="actions">
           <button type="submit" data-testid="save-client" disabled={pending}>{pending ? "Saving…" : "Save client"}</button>

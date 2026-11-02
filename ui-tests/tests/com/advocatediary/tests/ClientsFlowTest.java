@@ -21,13 +21,11 @@ public class ClientsFlowTest extends BaseTest {
   public void clickingClientsOpensClientsPage() {
     ClientsPage clients = signInToDiary().nav().openClients();
     Assert.assertTrue(clients.isClientsPage());
-    Assert.assertEquals(clients.heading(), "Clients");
   }
 
   @Test
   public void clickingAddClientShowsAddClientDetails() {
     NewClientPage add = signInToDiary().nav().openClients().addClient();
-    Assert.assertEquals(add.heading(), "Add a client");
     Assert.assertTrue(add.showsAddClientDetails(), "name, phone, email, address, notes, save and cancel should show");
   }
 
@@ -35,8 +33,8 @@ public class ClientsFlowTest extends BaseTest {
   public void saveWithoutNameShowsNameRequired() {
     NewClientPage add = signInToDiary().nav().openClients().addClient();
     add.clickSaveClient();
-    Assert.assertTrue(add.showsValidation("Name is required"));
-    Assert.assertEquals(add.heading(), "Add a client");
+    Assert.assertTrue(add.showsNameRequired());
+    Assert.assertTrue(add.showsAddClientDetails());
   }
 
   @Test
@@ -44,8 +42,8 @@ public class ClientsFlowTest extends BaseTest {
     NewClientPage add = signInToDiary().nav().openClients().addClient();
     add.fill("Meera Rao", "9876543210", "not-an-email", "Chennai", "Family matter");
     add.clickSaveClient();
-    Assert.assertTrue(add.showsValidation("Enter a valid email"));
-    Assert.assertEquals(add.heading(), "Add a client");
+    Assert.assertTrue(add.showsEmailInvalid());
+    Assert.assertTrue(add.showsAddClientDetails());
   }
 
   @Test

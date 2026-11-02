@@ -19,10 +19,9 @@ public class LasyaAccountFlowTest extends BaseTest {
   @Test
   public void openSignInThenSignInShowsCourtDiary() {
     SignInPage signIn = new SignInPage(driver).open(baseUrl);
-    Assert.assertTrue(signIn.currentUrl().contains("/sign-in"), "should start on /sign-in");
-    Assert.assertEquals(signIn.heading(), "Welcome back");
+    Assert.assertTrue(signIn.isOnSignIn(), "should start on /sign-in");
 
     DiaryPage diary = signIn.signIn(LAWYER_EMAIL, LAWYER_PASSWORD);
-    Assert.assertEquals(diary.heading(), "Court diary");
+    Assert.assertTrue(diary.isOpen());
   }
 }

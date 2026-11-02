@@ -133,7 +133,7 @@ function Auth({ mode }: { mode: "in" | "up" }) {
     <div className="auth">
       <form className="card" noValidate onSubmit={onSubmit} onInput={fields.onInput}>
         <p className="mark">Advocate Diary</p>
-        <h1>{mode === "up" ? "Open your diary" : "Welcome back"}</h1>
+        <h1 data-testid="auth-heading">{mode === "up" ? "Open your diary" : "Welcome back"}</h1>
         <p className="lede">
           {mode === "up"
             ? "Your clients, cases, and hearing dates stay on this account alone."
@@ -142,19 +142,19 @@ function Auth({ mode }: { mode: "in" | "up" }) {
         {mode === "up" ? (
           <label>
             Name
-            <input name="name" autoComplete="name" />
-            <FieldHint text={fields.hints.name} />
+            <input data-testid="auth-name" name="name" autoComplete="name" />
+            <FieldHint field="name" text={fields.hints.name} />
           </label>
         ) : null}
         <label>
           Email
-          <input name="email" type="email" autoComplete="email" />
-          <FieldHint text={fields.hints.email} />
+          <input data-testid="auth-email" name="email" type="email" autoComplete="email" />
+          <FieldHint field="email" text={fields.hints.email} />
         </label>
         <label>
           Password
-          <input name="password" type="password" autoComplete={mode === "up" ? "new-password" : "current-password"} />
-          <FieldHint text={fields.hints.password} />
+          <input data-testid="auth-password" name="password" type="password" autoComplete={mode === "up" ? "new-password" : "current-password"} />
+          <FieldHint field="password" text={fields.hints.password} />
         </label>
         {error ? <p className="error">{error}</p> : null}
         <button type="submit" data-testid="auth-submit" disabled={pending}>{pending ? "Please wait…" : mode === "up" ? "Create account" : "Sign in"}</button>

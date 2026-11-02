@@ -54,10 +54,11 @@ public class DiaryShowsCaseTest extends BaseTest {
         "For diary listing");
     matter.clickSaveCaseExpectingTitle(title);
     matter.fillHearing(when, court, purpose);
-    matter.clickSaveHearingExpectingSaved();
+    matter.clickSaveHearing();
+    matter.waitForHearing(court, purpose);
 
     DiaryPage diary = matter.nav().openDiary();
-    Assert.assertEquals(diary.heading(), "Court diary");
+    Assert.assertTrue(diary.isOpen());
     diary.waitForSavedCase(clientName, title, caseNumber, court, purpose);
     Assert.assertTrue(
         diary.showsSavedCase(clientName, title, caseNumber, court, purpose),

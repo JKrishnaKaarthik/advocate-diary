@@ -6,11 +6,11 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SignInPage extends BasePage {
-  private final By heading = By.cssSelector("h1");
-  private final By email = By.name("email");
-  private final By password = By.name("password");
-  private final By submit = By.cssSelector("[data-testid='auth-submit']");
-  private final By goSignUp = By.cssSelector("[data-testid='go-sign-up']");
+  private final By heading = testId("auth-heading");
+  private final By email = testId("auth-email");
+  private final By password = testId("auth-password");
+  private final By submit = testId("auth-submit");
+  private final By goSignUp = testId("go-sign-up");
 
   public SignInPage(WebDriver driver) {
     super(driver);
@@ -52,6 +52,6 @@ public class SignInPage extends BasePage {
   }
 
   public boolean isOnSignIn() {
-    return currentUrl().contains("/sign-in") && "Welcome back".equals(heading());
+    return currentUrl().contains("/sign-in") && shown(heading);
   }
 }

@@ -6,14 +6,13 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.ExpectedConditions;
 
 public class SignUpPage extends BasePage {
-  private final By heading = By.cssSelector("h1");
-  private final By name = By.name("name");
-  private final By email = By.name("email");
-  private final By password = By.name("password");
-  private final By submit = By.cssSelector("[data-testid='auth-submit']");
-  private final By goSignIn = By.cssSelector("[data-testid='go-sign-in']");
+  private final By heading = testId("auth-heading");
+  private final By name = testId("auth-name");
+  private final By email = testId("auth-email");
+  private final By password = testId("auth-password");
+  private final By submit = testId("auth-submit");
+  private final By goSignIn = testId("go-sign-in");
   private final By error = By.cssSelector("p.error");
-  private final By hint = By.cssSelector("p.info");
 
   public SignUpPage(WebDriver driver) {
     super(driver);
@@ -45,8 +44,8 @@ public class SignUpPage extends BasePage {
     return textOf(heading);
   }
 
-  public String hintText() {
-    return textOf(hint);
+  public boolean showsPasswordHint() {
+    return hintShown("password");
   }
 
   public String errorText() {
@@ -59,7 +58,7 @@ public class SignUpPage extends BasePage {
   }
 
   public boolean isOpenYourDiary() {
-    return currentUrl().contains("/sign-up") && "Open your diary".equals(heading());
+    return currentUrl().contains("/sign-up") && shown(heading);
   }
 
   public void fillAndCreateAccount(String lawyerName, String lawyerEmail, String lawyerPassword) {
@@ -73,9 +72,9 @@ public class SignUpPage extends BasePage {
   public boolean accountCreatedShowsDiary() {
     try {
       wait.until(ExpectedConditions.or(
-          ExpectedConditions.visibilityOfElementLocated(By.cssSelector("[data-testid='diary-heading']")),
+          ExpectedConditions.visibilityOfElementLocated(testId("diary-heading")),
           ExpectedConditions.visibilityOfElementLocated(error)));
-      return shown(By.cssSelector("[data-testid='diary-heading']"));
+      return shown(testId("diary-heading"));
     } catch (TimeoutException e) {
       return false;
     }

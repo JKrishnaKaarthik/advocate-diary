@@ -22,7 +22,7 @@ export function DiaryPage() {
       </header>
       {error ? <p className="error">{error}</p> : null}
       {items && items.length === 0 ? (
-        <div className="empty">
+        <div className="empty" data-testid="diary-empty">
           <p>Nothing is listed for the next seven days.</p>
           <Link to="/clients">Open a client and fix a hearing</Link>
         </div>
@@ -36,7 +36,16 @@ export function DiaryPage() {
           <ul>
             {rows.map((row) => (
               <li key={row.id}>
-                <Link className="slot" data-testid="diary-slot" to={`/cases/${row.case_id}`}>
+                <Link
+                  className="slot"
+                  data-testid="diary-slot"
+                  data-client={row.client_name}
+                  data-title={row.title}
+                  data-case-number={row.case_number}
+                  data-court={row.court_name}
+                  data-purpose={row.purpose}
+                  to={`/cases/${row.case_id}`}
+                >
                   <time>{clock(row.scheduled_at)}</time>
                   <strong data-testid="diary-client">{row.client_name}</strong>
                   <span data-testid="diary-matter">{row.title}{row.case_number ? ` · ${row.case_number}` : ""}</span>

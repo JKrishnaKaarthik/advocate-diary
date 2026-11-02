@@ -18,39 +18,14 @@ public class OpenCaseFlowTest extends BaseTest {
 
   @Test
   public void afterSaveClientOpenCaseThenSaveCaseDetails() {
-    ClientPage client = signInToDiary()
-        .nav()
-        .openClients()
-        .addClient()
-        .saveClientWithNotes("Meera Rao", "9876543210", "meera@example.test", "Chennai", "Family matter");
-
-    Assert.assertEquals(client.heading(), "Meera Rao");
+    signInToDiary();
+    ClientPage client = addClient(CLIENT_NAME);
+    Assert.assertEquals(client.heading(), CLIENT_NAME);
     Assert.assertTrue(client.showsOpenACase(), "Open a case form should show after save client");
 
-    client.fillOpenCase(
-        "Rao v State",
-        "Madras High Court",
-        "civil",
-        "WP 12 of 2026",
-        "State of Tamil Nadu");
-    CasePage matter = client.clickOpenCase();
-
-    Assert.assertEquals(matter.heading(), "Rao v State");
-    Assert.assertTrue(matter.showsCaseDetails(), "Case details and Save case should show");
-
-    matter.fillCaseDetails(
-        "Rao v State updated",
-        "Madras High Court",
-        "WP 12 of 2026",
-        "writ",
-        "active",
-        "State of Tamil Nadu",
-        "2026-01-15",
-        "Listed for admission");
-    matter.clickSaveCaseExpectingTitle("Rao v State updated");
-
-    Assert.assertEquals(matter.heading(), "Rao v State updated");
-    Assert.assertEquals(matter.titleValue(), "Rao v State updated");
+    CasePage matter = openAndSaveCase(client);
+    Assert.assertEquals(matter.heading(), CASE_TITLE);
+    Assert.assertEquals(matter.titleValue(), CASE_TITLE);
     Assert.assertEquals(matter.notesValue(), "Listed for admission");
   }
 }

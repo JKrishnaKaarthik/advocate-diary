@@ -73,14 +73,14 @@ export function ClientPage() {
         <label>
           Name
           <input name="full_name" defaultValue={client.full_name} />
-          <FieldHint text={clientFields.hints.full_name} />
+          <FieldHint field="full_name" text={clientFields.hints.full_name} />
         </label>
         <div className="split">
           <label>Phone<input name="phone" defaultValue={client.phone} /></label>
           <label>
             Email
             <input name="email" type="email" defaultValue={client.email} />
-            <FieldHint text={clientFields.hints.email} />
+            <FieldHint field="email" text={clientFields.hints.email} />
           </label>
         </div>
         <label>Address<input name="address" defaultValue={client.address} /></label>
@@ -105,25 +105,25 @@ export function ClientPage() {
         <h2 data-testid="open-case-heading">Open a case</h2>
         <label>
           Title
-          <input name="title" />
-          <FieldHint text={caseFields.hints.title} />
+          <input data-testid="open-case-title" name="title" />
+          <FieldHint field="title" text={caseFields.hints.title} />
         </label>
         <div className="split">
           <label>
             Court
-            <input name="court_name" />
-            <FieldHint text={caseFields.hints.court_name} />
+            <input data-testid="open-case-court" name="court_name" />
+            <FieldHint field="court_name" text={caseFields.hints.court_name} />
           </label>
           <label>
             Type
-            <select name="case_type" defaultValue="civil">
+            <select data-testid="open-case-type" name="case_type" defaultValue="civil">
               {caseTypes.map((type) => <option key={type} value={type}>{type}</option>)}
             </select>
           </label>
         </div>
         <div className="split">
-          <label>Case number<input name="case_number" /></label>
-          <label>Opposite party<input name="opposite_party" /></label>
+          <label>Case number<input data-testid="open-case-number" name="case_number" /></label>
+          <label>Opposite party<input data-testid="open-case-opposite" name="opposite_party" /></label>
         </div>
         {caseError ? <p className="error">{caseError}</p> : null}
         <button type="submit" data-testid="open-case">Open case</button>

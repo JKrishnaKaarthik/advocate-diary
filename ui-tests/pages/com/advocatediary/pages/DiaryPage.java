@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class DiaryPage extends BasePage {
-  private final By heading = By.cssSelector("[data-testid='diary-heading']");
+  private final By heading = testId("diary-heading");
 
   public DiaryPage(WebDriver driver) {
     super(driver);
@@ -13,6 +13,23 @@ public class DiaryPage extends BasePage {
   public DiaryPage waitUntilLoaded() {
     visible(heading);
     return this;
+  }
+
+  public boolean isOpen() {
+    return shown(heading);
+  }
+
+  public DiaryPage waitUntilEmpty() {
+    visible(empty());
+    return this;
+  }
+
+  public boolean isEmpty() {
+    return shown(empty()) && !shown(testId("diary-slot"));
+  }
+
+  private By empty() {
+    return By.cssSelector("[data-testid='diary-empty'], div.empty");
   }
 
   public String heading() {
@@ -29,21 +46,13 @@ public class DiaryPage extends BasePage {
   }
 
   private By slot(String clientName, String title, String caseNumber, String court, String purpose) {
-    return By.xpath(
-        "//a[contains(@class,'slot') or @data-testid='diary-slot']"
-            + "[.//strong[normalize-space()='"
-            + clientName
-            + "']]"
-            + "[.//span[contains(.,'"
-            + title
-            + "') and contains(.,'"
-            + caseNumber
-            + "')]]"
-            + "[.//span[contains(.,'"
-            + court
-            + "') and contains(.,'"
-            + purpose
-            + "')]]");
+    return marked(
+        "diary-slot",
+        "data-client", clientName,
+        "data-title", title,
+        "data-case-number", caseNumber,
+        "data-court", court,
+        "data-purpose", purpose);
   }
 
   public LayoutPage nav() {

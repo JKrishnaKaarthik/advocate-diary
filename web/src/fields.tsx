@@ -34,9 +34,9 @@ export function checkFields(form: HTMLFormElement, rules: Rule[]): Record<string
   return out;
 }
 
-export function FieldHint({ text }: { text?: string }) {
+export function FieldHint({ text, field }: { text?: string; field: string }) {
   if (!text) return null;
-  return <p className="info">{text}</p>;
+  return <p className="info" data-testid={`hint-${field}`}>{text}</p>;
 }
 
 export function useFieldHints() {

@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SignOut" verbose="1">
+  <test name="SignOutReturnsToSignIn">
+    <classes>
+      <class name="com.advocatediary.tests.SignOutTest"/>
+    </classes>
+  </test>
+</suite>

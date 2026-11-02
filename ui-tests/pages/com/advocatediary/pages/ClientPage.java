@@ -5,14 +5,14 @@ import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.support.ui.Select;
 
 public class ClientPage extends BasePage {
-  private final By heading = By.cssSelector("[data-testid='client-heading']");
-  private final By openCaseHeading = By.cssSelector("[data-testid='open-case-heading'], h2");
-  private final By title = By.name("title");
-  private final By court = By.name("court_name");
-  private final By caseType = By.name("case_type");
-  private final By caseNumber = By.name("case_number");
-  private final By oppositeParty = By.name("opposite_party");
-  private final By openCase = By.cssSelector("[data-testid='open-case']");
+  private final By heading = testId("client-heading");
+  private final By openCaseHeading = testId("open-case-heading");
+  private final By title = testId("open-case-title");
+  private final By court = testId("open-case-court");
+  private final By caseType = testId("open-case-type");
+  private final By caseNumber = testId("open-case-number");
+  private final By oppositeParty = testId("open-case-opposite");
+  private final By openCase = testId("open-case");
 
   public ClientPage(WebDriver driver) {
     super(driver);
@@ -28,10 +28,7 @@ public class ClientPage extends BasePage {
   }
 
   public boolean showsOpenACase() {
-    return driver.getPageSource().contains("Open a case")
-        && shown(title)
-        && shown(court)
-        && shown(openCase);
+    return shown(openCaseHeading) && shown(title) && shown(court) && shown(openCase);
   }
 
   public void fillOpenCase(String caseTitle, String courtName, String type, String number, String opposite) {

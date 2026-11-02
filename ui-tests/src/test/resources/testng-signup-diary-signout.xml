@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="SignupDiarySignOut" verbose="1">
+  <test name="SignupClientCaseDiarySignOut">
+    <classes>
+      <class name="com.advocatediary.tests.SignupDiarySignOutTest"/>
+    </classes>
+  </test>
+</suite>

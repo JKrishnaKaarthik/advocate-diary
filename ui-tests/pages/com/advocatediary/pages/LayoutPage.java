@@ -4,10 +4,10 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class LayoutPage extends BasePage {
-  private final By diary = By.cssSelector("[data-testid='nav-diary']");
-  private final By clients = By.cssSelector("[data-testid='nav-clients']");
-  private final By inbox = By.cssSelector("[data-testid='nav-inbox']");
-  private final By signOut = By.cssSelector("[data-testid='sign-out']");
+  private final By diary = testId("nav-diary");
+  private final By clients = testId("nav-clients");
+  private final By inbox = testId("nav-inbox");
+  private final By signOut = testId("sign-out");
 
   public LayoutPage(WebDriver driver) {
     super(driver);

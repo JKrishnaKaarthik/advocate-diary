@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="NewAccountEmptyDiary" verbose="1">
+  <test name="EmptyUntilFirstHearing">
+    <classes>
+      <class name="com.advocatediary.tests.NewAccountEmptyDiaryTest"/>
+    </classes>
+  </test>
+</suite>

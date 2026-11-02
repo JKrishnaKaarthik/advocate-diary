@@ -8,31 +8,25 @@ import org.openqa.selenium.support.ui.ExpectedConditions;
 import org.openqa.selenium.support.ui.Select;
 
 public class CasePage extends BasePage {
-  private final By heading = By.cssSelector("[data-testid='case-heading']");
-  private final By title = By.name("title");
-  private final By court = By.name("court_name");
-  private final By caseNumber = By.name("case_number");
-  private final By caseType = By.name("case_type");
-  private final By status = By.name("status");
-  private final By oppositeParty = By.name("opposite_party");
-  private final By filingDate = By.name("filing_date");
-  private final By notes = By.name("notes");
-  private final By detailsHeading = By.xpath("//h2[normalize-space()='Case details']");
-  private final By saveCaseButton = By.xpath("//button[normalize-space()='Save case']");
-  private final By papersHeading = By.xpath("//h2[normalize-space()='Papers']");
-  private final By fileInput = By.cssSelector("[data-testid='upload-file'], input[name='file'][type='file']");
-  private final By labelSelect = By.cssSelector("[data-testid='upload-label'], select[name='label']");
-  private final By uploadButton = By.xpath("//button[@data-testid='upload' or normalize-space()='Upload']");
-  private final By uploadHint = By.xpath("//form[.//button[@data-testid='upload' or normalize-space()='Upload']]//p[contains(@class,'info')]");
-  private final By fixHearingHeading = By.xpath("//h2[@data-testid='fix-hearing-heading' or normalize-space()='Fix a hearing']");
-  private final By hearingWhen = By.cssSelector("[data-testid='hearing-when'], input[name='scheduled_at'][type='datetime-local']");
-  private final By hearingCourt = By.cssSelector("[data-testid='hearing-court']");
-  private final By hearingCourtFallback = By.xpath("//h2[normalize-space()='Fix a hearing']/following::input[@name='court_name'][1]");
-  private final By hearingPurpose = By.cssSelector("[data-testid='hearing-purpose']");
-  private final By hearingPurposeFallback = By.xpath("//h2[normalize-space()='Fix a hearing']/following::select[@name='purpose'][1]");
-  private final By saveHearingButton = By.xpath("//button[@data-testid='save-hearing' or normalize-space()='Save hearing']");
-  private final By hearingSavedNote = By.cssSelector("p.note");
-  private final By hearingWhenHint = By.xpath("//form[.//button[@data-testid='save-hearing' or normalize-space()='Save hearing']]//p[contains(@class,'info')]");
+  private final By heading = testId("case-heading");
+  private final By details = testId("case-details");
+  private final By title = testId("case-title");
+  private final By court = testId("case-court");
+  private final By caseNumber = testId("case-number");
+  private final By caseType = testId("case-type");
+  private final By status = testId("case-status");
+  private final By oppositeParty = testId("case-opposite");
+  private final By filingDate = testId("case-filing-date");
+  private final By notes = testId("case-notes");
+  private final By saveCaseButton = testId("save-case");
+  private final By fileInput = testId("upload-file");
+  private final By labelSelect = testId("upload-label");
+  private final By uploadButton = testId("upload");
+  private final By fixHearingHeading = testId("fix-hearing-heading");
+  private final By hearingWhen = testId("hearing-when");
+  private final By hearingCourt = testId("hearing-court");
+  private final By hearingPurpose = testId("hearing-purpose");
+  private final By saveHearingButton = testId("save-hearing");
 
   public CasePage(WebDriver driver) {
     super(driver);
@@ -40,7 +34,7 @@ public class CasePage extends BasePage {
 
   public CasePage waitUntilLoaded() {
     visible(heading);
-    visible(detailsHeading);
+    visible(details);
     return this;
   }
 
@@ -53,7 +47,7 @@ public class CasePage extends BasePage {
   }
 
   public boolean showsCaseDetails() {
-    return shown(detailsHeading) && shown(title) && shown(court) && shown(saveCaseButton);
+    return shown(details) && shown(title) && shown(court) && shown(saveCaseButton);
   }
 
   public void fillCaseDetails(
@@ -101,7 +95,7 @@ public class CasePage extends BasePage {
   }
 
   public boolean showsFileUpload() {
-    return shown(papersHeading) && shown(fileInput) && shown(labelSelect) && shown(uploadButton);
+    return shown(fileInput) && shown(labelSelect) && shown(uploadButton);
   }
 
   public CasePage chooseFile(Path file) {
@@ -122,8 +116,8 @@ public class CasePage extends BasePage {
     return this;
   }
 
-  public boolean showsChooseAFileHint() {
-    return shown(uploadHint) && textOf(uploadHint).contains("Choose a file to upload");
+  public boolean showsFileRequired() {
+    return hintShown("file");
   }
 
   public boolean showsPaper(String fileName, String label) {
@@ -136,21 +130,14 @@ public class CasePage extends BasePage {
   }
 
   private By paper(String fileName, String label) {
-    return By.xpath(
-        "//li[(contains(@class,'doc') or @data-testid='paper')]"
-            + "[.//strong[normalize-space()='"
-            + fileName
-            + "']]"
-            + "[.//span[contains(.,'"
-            + label
-            + "')]]");
+    return marked("paper", "data-name", fileName, "data-label", label);
   }
 
   public boolean showsFixAHearing() {
     return shown(fixHearingHeading)
         && shown(hearingWhen)
-        && shown(hearingCourtField())
-        && shown(hearingPurposeField())
+        && shown(hearingCourt)
+        && shown(hearingPurpose)
         && shown(saveHearingButton);
   }
 
@@ -161,8 +148,8 @@ public class CasePage extends BasePage {
             + " arguments[0].dispatchEvent(new Event('change', { bubbles: true }));",
         visible(hearingWhen),
         when);
-    type(hearingCourtField(), courtName);
-    new Select(visible(hearingPurposeField())).selectByVisibleText(purpose);
+    type(hearingCourt, courtName);
+    new Select(visible(hearingPurpose)).selectByVisibleText(purpose);
     pause(600);
     return this;
   }
@@ -173,14 +160,8 @@ public class CasePage extends BasePage {
     return this;
   }
 
-  public CasePage clickSaveHearingExpectingSaved() {
-    click(saveHearingButton);
-    wait.until(ExpectedConditions.textToBePresentInElementLocated(hearingSavedNote, "Hearing saved."));
-    return this;
-  }
-
-  public boolean showsDateAndTimeRequired() {
-    return shown(hearingWhenHint) && textOf(hearingWhenHint).contains("Date and time is required");
+  public boolean showsDateRequired() {
+    return hintShown("scheduled_at");
   }
 
   public boolean showsHearing(String courtName, String purpose) {
@@ -192,26 +173,7 @@ public class CasePage extends BasePage {
     return this;
   }
 
-  public String hearingSavedNote() {
-    return textOf(hearingSavedNote);
-  }
-
-  private By hearingCourtField() {
-    return shown(hearingCourt) ? hearingCourt : hearingCourtFallback;
-  }
-
-  private By hearingPurposeField() {
-    return shown(hearingPurpose) ? hearingPurpose : hearingPurposeFallback;
-  }
-
   private By hearingRow(String courtName, String purpose) {
-    return By.xpath(
-        "//li[@data-testid='hearing' or .//span[contains(.,' · ')]]"
-            + "[.//span[contains(.,'"
-            + courtName
-            + "') and contains(.,'"
-            + purpose
-            + "')]]"
-            + "[.//strong[contains(.,'scheduled')]]");
+    return marked("hearing", "data-court", courtName, "data-purpose", purpose, "data-status", "scheduled");
   }
 }

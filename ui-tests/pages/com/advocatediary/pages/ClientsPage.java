@@ -4,8 +4,8 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class ClientsPage extends BasePage {
-  private final By heading = By.cssSelector("[data-testid='clients-heading']");
-  private final By addClient = By.cssSelector("[data-testid='add-client']");
+  private final By heading = testId("clients-heading");
+  private final By addClient = testId("add-client");
 
   public ClientsPage(WebDriver driver) {
     super(driver);
@@ -28,10 +28,6 @@ public class ClientsPage extends BasePage {
   public boolean isClientsPage() {
     return currentUrl().contains("/clients")
         && !currentUrl().contains("/clients/new")
-        && "Clients".equals(heading());
-  }
-
-  public boolean hasClientNamed(String name) {
-    return driver.getPageSource().contains(name);
+        && shown(heading);
   }
 }

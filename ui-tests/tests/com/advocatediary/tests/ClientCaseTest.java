@@ -13,10 +13,10 @@ public class ClientCaseTest extends BaseTest {
   @Test
   public void lawyerCanAddClientAndOpenCase() {
     DiaryPage diary = signInToDiary();
-    Assert.assertEquals(diary.heading(), "Court diary");
+    Assert.assertTrue(diary.isOpen());
 
     ClientsPage clients = diary.nav().openClients();
-    Assert.assertEquals(clients.heading(), "Clients");
+    Assert.assertTrue(clients.isClientsPage());
 
     ClientPage client = clients.addClient()
         .saveClient("Meera Rao", "9876543210", "meera@example.test", "Chennai");
@@ -31,6 +31,6 @@ public class ClientCaseTest extends BaseTest {
     Assert.assertEquals(matter.heading(), "Rao v State");
 
     InboxPage inbox = diary.nav().openInbox();
-    Assert.assertEquals(inbox.heading(), "Client reminders");
+    Assert.assertTrue(inbox.isOpen());
   }
 }

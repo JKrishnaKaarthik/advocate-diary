@@ -4,7 +4,7 @@ import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 
 public class InboxPage extends BasePage {
-  private final By heading = By.cssSelector("[data-testid='inbox-heading'], h1");
+  private final By heading = testId("inbox-heading");
 
   public InboxPage(WebDriver driver) {
     super(driver);
@@ -13,6 +13,10 @@ public class InboxPage extends BasePage {
   public InboxPage waitUntilLoaded() {
     visible(heading);
     return this;
+  }
+
+  public boolean isOpen() {
+    return shown(heading);
   }
 
   public String heading() {
@@ -29,15 +33,10 @@ public class InboxPage extends BasePage {
   }
 
   private By card(String clientName, String title, String caseNumber) {
-    return By.xpath(
-        "//article[contains(@class,'hearing-card') or @data-testid='inbox-hearing']"
-            + "[.//h3[normalize-space()='"
-            + clientName
-            + "']]"
-            + "[.//p[contains(@class,'matter') and contains(.,'"
-            + title
-            + "') and contains(.,'"
-            + caseNumber
-            + "')]]");
+    return marked(
+        "inbox-hearing",
+        "data-client", clientName,
+        "data-title", title,
+        "data-case-number", caseNumber);
   }
 }

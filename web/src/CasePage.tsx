@@ -102,31 +102,31 @@ export function CasePage() {
         <p>{item.court_name} · {item.case_type} · {item.status}</p>
       </header>
       {error ? <p className="error">{error}</p> : null}
-      {note ? <p className="note">{note}</p> : null}
-      <form className="card stack" key={item.id} noValidate onSubmit={save} onInput={caseFields.onInput}>
+      {note ? <p className="note" data-testid="save-note">{note}</p> : null}
+      <form className="card stack" data-testid="case-details" key={item.id} noValidate onSubmit={save} onInput={caseFields.onInput}>
         <h2>Case details</h2>
         <label>
           Title
-          <input name="title" defaultValue={item.title} />
-          <FieldHint text={caseFields.hints.title} />
+          <input data-testid="case-title" name="title" defaultValue={item.title} />
+          <FieldHint field="title" text={caseFields.hints.title} />
         </label>
         <div className="split">
           <label>
             Court
-            <input name="court_name" defaultValue={item.court_name} />
-            <FieldHint text={caseFields.hints.court_name} />
+            <input data-testid="case-court" name="court_name" defaultValue={item.court_name} />
+            <FieldHint field="court_name" text={caseFields.hints.court_name} />
           </label>
-          <label>Case number<input name="case_number" defaultValue={item.case_number} /></label>
+          <label>Case number<input data-testid="case-number" name="case_number" defaultValue={item.case_number} /></label>
         </div>
         <div className="split">
-          <label>Type<select name="case_type" defaultValue={item.case_type}>{caseTypes.map((type) => <option key={type}>{type}</option>)}</select></label>
-          <label>Status<select name="status" defaultValue={item.status}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></label>
+          <label>Type<select data-testid="case-type" name="case_type" defaultValue={item.case_type}>{caseTypes.map((type) => <option key={type}>{type}</option>)}</select></label>
+          <label>Status<select data-testid="case-status" name="status" defaultValue={item.status}>{statuses.map((status) => <option key={status}>{status}</option>)}</select></label>
         </div>
         <div className="split">
-          <label>Opposite party<input name="opposite_party" defaultValue={item.opposite_party} /></label>
-          <label>Filing date<input name="filing_date" type="date" defaultValue={item.filing_date || ""} /></label>
+          <label>Opposite party<input data-testid="case-opposite" name="opposite_party" defaultValue={item.opposite_party} /></label>
+          <label>Filing date<input data-testid="case-filing-date" name="filing_date" type="date" defaultValue={item.filing_date || ""} /></label>
         </div>
-        <label>Notes<textarea name="notes" rows={3} defaultValue={item.notes} /></label>
+        <label>Notes<textarea data-testid="case-notes" name="notes" rows={3} defaultValue={item.notes} /></label>
         {caseError ? <p className="error">{caseError}</p> : null}
         <button type="submit" data-testid="save-case">Save case</button>
       </form>
@@ -135,7 +135,7 @@ export function CasePage() {
       {item.documents.length === 0 ? <p className="muted">No papers on this case.</p> : null}
       <ul className="rows">
         {item.documents.map((doc) => (
-          <li key={doc.id} className="doc" data-testid="paper">
+          <li key={doc.id} className="doc" data-testid="paper" data-name={doc.original_name} data-label={doc.label}>
             <div>
               <strong data-testid="paper-name">{doc.original_name}</strong>
               <span data-testid="paper-label">{doc.label} · {Math.ceil(doc.byte_size / 1024)} KB</span>
@@ -157,7 +157,7 @@ export function CasePage() {
         <label>
           File
           <input data-testid="upload-file" name="file" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt" />
-          <FieldHint text={uploadFields.hints.file} />
+          <FieldHint field="file" text={uploadFields.hints.file} />
         </label>
         <label>Label<select data-testid="upload-label" name="label" defaultValue="other">{labels.map((label) => <option key={label}>{label}</option>)}</select></label>
         {uploadError ? <p className="error">{uploadError}</p> : null}
@@ -178,12 +178,12 @@ export function CasePage() {
             <label>
               When, India time
               <input data-testid="hearing-when" name="scheduled_at" type="datetime-local" />
-              <FieldHint text={hearingFields.hints.scheduled_at} />
+              <FieldHint field="scheduled_at" text={hearingFields.hints.scheduled_at} />
             </label>
             <label>
               Court
               <input data-testid="hearing-court" name="court_name" defaultValue={item.court_name} />
-              <FieldHint text={hearingFields.hints.court_name} />
+              <FieldHint field="hearing-court" text={hearingFields.hints.court_name} />
             </label>
           </div>
           <label>Purpose<select data-testid="hearing-purpose" name="purpose" defaultValue="arguments">{purposes.map((purpose) => <option key={purpose}>{purpose}</option>)}</select></label>
@@ -220,7 +220,7 @@ function HearingRow({ hearing, onChange, onError }: {
     }
   }
   return (
-    <li data-testid="hearing">
+    <li data-testid="hearing" data-court={hearing.court_name} data-purpose={hearing.purpose} data-status={hearing.status}>
       <div>
         <strong data-testid="hearing-when-status">{formatWhen(hearing.scheduled_at)} · {hearing.status}</strong>
         <span data-testid="hearing-court-purpose">{hearing.court_name} · {hearing.purpose}</span>
@@ -243,7 +243,7 @@ function HearingRow({ hearing, onChange, onError }: {
           run(() => api.completeHearing(hearing.id, outcome));
         }}>
           <input name="outcome" className={fields.hints.outcome ? "invalid" : undefined} placeholder="What happened" />
-          <FieldHint text={fields.hints.outcome} />
+          <FieldHint field="outcome" text={fields.hints.outcome} />
           <button type="submit">Save outcome</button>
         </form>
       ) : null}
@@ -263,8 +263,8 @@ function HearingRow({ hearing, onChange, onError }: {
         }}>
           <input name="outcome" className={fields.hints.outcome ? "invalid" : undefined} placeholder="Why it was adjourned" />
           <input name="next_at" className={fields.hints.next_at ? "invalid" : undefined} type="datetime-local" aria-label="Next date, India time" />
-          <FieldHint text={fields.hints.outcome} />
-          <FieldHint text={fields.hints.next_at} />
+          <FieldHint field="outcome" text={fields.hints.outcome} />
+          <FieldHint field="next_at" text={fields.hints.next_at} />
           <button type="submit">Fix next date</button>
         </form>
       ) : null}

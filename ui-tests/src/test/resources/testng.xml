@@ -1,16 +1,8 @@
 <!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
 <suite name="AdvocateDiaryUI" verbose="1">
-  <test name="PageObjectFlows">
+  <test name="OneCase">
     <classes>
-      <class name="com.advocatediary.tests.LasyaAccountFlowTest"/>
-      <class name="com.advocatediary.tests.ClientsFlowTest"/>
       <class name="com.advocatediary.tests.OpenCaseFlowTest"/>
-      <class name="com.advocatediary.tests.FileUploadFlowTest"/>
-      <class name="com.advocatediary.tests.FixHearingFlowTest"/>
-      <class name="com.advocatediary.tests.DiaryShowsCaseTest"/>
-      <class name="com.advocatediary.tests.InboxShowsHearingTest"/>
-      <class name="com.advocatediary.tests.SignUpSignInTest"/>
-      <class name="com.advocatediary.tests.ClientCaseTest"/>
     </classes>
   </test>
 </suite>

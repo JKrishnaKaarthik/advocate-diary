@@ -1,20 +1,17 @@
 package com.advocatediary.pages;
 
-import java.util.List;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
-import org.openqa.selenium.WebElement;
 
 public class NewClientPage extends BasePage {
-  private final By heading = By.cssSelector("[data-testid='new-client-heading']");
-  private final By fullName = By.name("full_name");
-  private final By phone = By.name("phone");
-  private final By email = By.name("email");
-  private final By address = By.name("address");
-  private final By notes = By.name("notes");
-  private final By save = By.cssSelector("[data-testid='save-client']");
-  private final By cancel = By.cssSelector("[data-testid='cancel-client'], a.button.secondary");
-  private final By hints = By.cssSelector("p.info");
+  private final By heading = testId("new-client-heading");
+  private final By fullName = testId("client-name");
+  private final By phone = testId("client-phone");
+  private final By email = testId("client-email");
+  private final By address = testId("client-address");
+  private final By notes = testId("client-notes");
+  private final By save = testId("save-client");
+  private final By cancel = testId("cancel-client");
 
   public NewClientPage(WebDriver driver) {
     super(driver);
@@ -30,7 +27,7 @@ public class NewClientPage extends BasePage {
   }
 
   public boolean showsAddClientDetails() {
-    return "Add a client".equals(heading())
+    return shown(heading)
         && shown(fullName)
         && shown(phone)
         && shown(email)
@@ -72,30 +69,20 @@ public class NewClientPage extends BasePage {
     return new ClientPage(driver).waitUntilLoaded();
   }
 
-  public String fieldValue(String fieldName) {
-    return visible(By.name(fieldName)).getAttribute("value");
-  }
-
   public boolean allFieldsEmpty() {
-    return isBlank(fieldValue("full_name"))
-        && isBlank(fieldValue("phone"))
-        && isBlank(fieldValue("email"))
-        && isBlank(fieldValue("address"))
-        && isBlank(fieldValue("notes"));
+    return isBlank(visible(fullName).getAttribute("value"))
+        && isBlank(visible(phone).getAttribute("value"))
+        && isBlank(visible(email).getAttribute("value"))
+        && isBlank(visible(address).getAttribute("value"))
+        && isBlank(visible(notes).getAttribute("value"));
   }
 
-  public String validationMessage() {
-    List<WebElement> messages = driver.findElements(hints);
-    return messages.stream()
-        .filter(WebElement::isDisplayed)
-        .map(WebElement::getText)
-        .findFirst()
-        .orElse("");
+  public boolean showsNameRequired() {
+    return hintShown("full_name");
   }
 
-  public boolean showsValidation(String expected) {
-    return driver.findElements(hints).stream()
-        .anyMatch(el -> el.isDisplayed() && el.getText().contains(expected));
+  public boolean showsEmailInvalid() {
+    return hintShown("email");
   }
 
   private boolean isBlank(String value) {

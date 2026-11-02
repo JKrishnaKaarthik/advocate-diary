@@ -43,10 +43,11 @@ public class InboxShowsHearingTest extends BaseTest {
 
     CasePage matter = client.openCase(title, court, "civil", caseNumber, "State of Tamil Nadu");
     matter.fillHearing(when, court, "arguments");
-    matter.clickSaveHearingExpectingSaved();
+    matter.clickSaveHearing();
+    matter.waitForHearing(court, "arguments");
 
     InboxPage inbox = matter.nav().openInbox();
-    Assert.assertEquals(inbox.heading(), "Client reminders");
+    Assert.assertTrue(inbox.isOpen());
     inbox.waitForNextHearing(clientName, title, caseNumber);
     Assert.assertTrue(
         inbox.showsNextHearing(clientName, title, caseNumber),

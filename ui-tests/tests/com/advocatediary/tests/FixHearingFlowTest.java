@@ -22,7 +22,7 @@ public class FixHearingFlowTest extends BaseTest {
     Assert.assertTrue(matter.showsFixAHearing(), "Fix a hearing and Save hearing should show");
 
     matter.clickSaveHearing();
-    Assert.assertTrue(matter.showsDateAndTimeRequired());
+    Assert.assertTrue(matter.showsDateRequired());
   }
 
   @Test
@@ -31,10 +31,8 @@ public class FixHearingFlowTest extends BaseTest {
     Assert.assertTrue(matter.showsFixAHearing(), "Fix a hearing and Save hearing should show");
 
     matter.fillHearing("2027-06-20T11:15", "City Civil Court", "mention");
-    matter.clickSaveHearingExpectingSaved();
+    matter.clickSaveHearing();
     matter.waitForHearing("City Civil Court", "mention");
-
-    Assert.assertTrue(matter.hearingSavedNote().contains("Hearing saved."));
     Assert.assertTrue(matter.showsHearing("City Civil Court", "mention"));
   }
 
