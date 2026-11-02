@@ -3,6 +3,7 @@ package storage
 import (
 	"bytes"
 	"context"
+	"strings"
 	"time"
 
 	"github.com/aws/aws-sdk-go-v2/aws"
@@ -11,9 +12,11 @@ import (
 )
 
 type S3 struct {
-	client  *s3.Client
-	presign *s3.PresignClient
-	bucket  string
+	client          *s3.Client
+	presign         *s3.PresignClient
+	bucket          string
+	endpoint        string
+	publicEndpoint  string
 }
 
 func New(endpoint, region, bucket, accessKey, secretKey string, pathStyle bool) *S3 {
@@ -23,7 +26,11 @@ func New(endpoint, region, bucket, accessKey, secretKey string, pathStyle bool) 
 		BaseEndpoint: endpointPtr(endpoint),
 		UsePathStyle: pathStyle,
 	})
-	return &S3{client: client, presign: s3.NewPresignClient(client), bucket: bucket}
+	return &S3{client: client, presign: s3.NewPresignClient(client), bucket: bucket, endpoint: endpoint}
+}
+
+func (s *S3) SetPublicEndpoint(public string) {
+	s.publicEndpoint = public
 }
 
 func endpointPtr(endpoint string) *string {
@@ -59,5 +66,9 @@ func (s *S3) PresignGet(ctx context.Context, key string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	return out.URL, nil
+	url := out.URL
+	if s.publicEndpoint != "" && s.endpoint != "" {
+		url = strings.Replace(url, strings.TrimRight(s.endpoint, "/"), strings.TrimRight(s.publicEndpoint, "/"), 1)
+	}
+	return url, nil
 }

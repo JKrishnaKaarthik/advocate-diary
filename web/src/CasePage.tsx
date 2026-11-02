@@ -98,7 +98,7 @@ export function CasePage() {
     <section>
       <header className="page-head">
         <p className="crumb"><Link to={`/clients/${item.client_id}`}>{item.client_name}</Link></p>
-        <h1>{item.title}</h1>
+        <h1 data-testid="case-heading">{item.title}</h1>
         <p>{item.court_name} · {item.case_type} · {item.status}</p>
       </header>
       {error ? <p className="error">{error}</p> : null}
@@ -128,17 +128,17 @@ export function CasePage() {
         </div>
         <label>Notes<textarea name="notes" rows={3} defaultValue={item.notes} /></label>
         {caseError ? <p className="error">{caseError}</p> : null}
-        <button type="submit">Save case</button>
+        <button type="submit" data-testid="save-case">Save case</button>
       </form>
 
       <h2>Papers</h2>
       {item.documents.length === 0 ? <p className="muted">No papers on this case.</p> : null}
       <ul className="rows">
         {item.documents.map((doc) => (
-          <li key={doc.id} className="doc">
+          <li key={doc.id} className="doc" data-testid="paper">
             <div>
-              <strong>{doc.original_name}</strong>
-              <span>{doc.label} · {Math.ceil(doc.byte_size / 1024)} KB</span>
+              <strong data-testid="paper-name">{doc.original_name}</strong>
+              <span data-testid="paper-label">{doc.label} · {Math.ceil(doc.byte_size / 1024)} KB</span>
             </div>
             <div className="actions">
               <button className="secondary" onClick={async () => {
@@ -156,12 +156,12 @@ export function CasePage() {
       <form className="card inline" noValidate onSubmit={upload} onInput={uploadFields.onInput} onChange={uploadFields.onInput}>
         <label>
           File
-          <input name="file" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt" />
+          <input data-testid="upload-file" name="file" type="file" accept=".pdf,.doc,.docx,.jpg,.jpeg,.png,.txt" />
           <FieldHint text={uploadFields.hints.file} />
         </label>
-        <label>Label<select name="label" defaultValue="other">{labels.map((label) => <option key={label}>{label}</option>)}</select></label>
+        <label>Label<select data-testid="upload-label" name="label" defaultValue="other">{labels.map((label) => <option key={label}>{label}</option>)}</select></label>
         {uploadError ? <p className="error">{uploadError}</p> : null}
-        <button type="submit">Upload</button>
+        <button type="submit" data-testid="upload">Upload</button>
       </form>
 
       <h2>Hearings</h2>
@@ -173,22 +173,22 @@ export function CasePage() {
       </ul>
       {item.status === "disposed" ? <p className="muted">This case is disposed, so a new hearing cannot be added.</p> : (
         <form className="card stack" noValidate onSubmit={addHearing} onInput={hearingFields.onInput}>
-          <h2>Fix a hearing</h2>
+          <h2 data-testid="fix-hearing-heading">Fix a hearing</h2>
           <div className="split">
             <label>
               When, India time
-              <input name="scheduled_at" type="datetime-local" />
+              <input data-testid="hearing-when" name="scheduled_at" type="datetime-local" />
               <FieldHint text={hearingFields.hints.scheduled_at} />
             </label>
             <label>
               Court
-              <input name="court_name" defaultValue={item.court_name} />
+              <input data-testid="hearing-court" name="court_name" defaultValue={item.court_name} />
               <FieldHint text={hearingFields.hints.court_name} />
             </label>
           </div>
-          <label>Purpose<select name="purpose" defaultValue="arguments">{purposes.map((purpose) => <option key={purpose}>{purpose}</option>)}</select></label>
+          <label>Purpose<select data-testid="hearing-purpose" name="purpose" defaultValue="arguments">{purposes.map((purpose) => <option key={purpose}>{purpose}</option>)}</select></label>
           {hearingError ? <p className="error">{hearingError}</p> : null}
-          <button type="submit">Save hearing</button>
+          <button type="submit" data-testid="save-hearing">Save hearing</button>
         </form>
       )}
     </section>
@@ -220,10 +220,10 @@ function HearingRow({ hearing, onChange, onError }: {
     }
   }
   return (
-    <li>
+    <li data-testid="hearing">
       <div>
-        <strong>{formatWhen(hearing.scheduled_at)} · {hearing.status}</strong>
-        <span>{hearing.court_name} · {hearing.purpose}</span>
+        <strong data-testid="hearing-when-status">{formatWhen(hearing.scheduled_at)} · {hearing.status}</strong>
+        <span data-testid="hearing-court-purpose">{hearing.court_name} · {hearing.purpose}</span>
         {hearing.outcome ? <span>{hearing.outcome}</span> : null}
         {problem ? <p className="info">{problem}</p> : null}
       </div>

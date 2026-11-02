@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="FileUploadFlow" verbose="1">
+  <test name="PapersUpload">
+    <classes>
+      <class name="com.advocatediary.tests.FileUploadFlowTest"/>
+    </classes>
+  </test>
+</suite>

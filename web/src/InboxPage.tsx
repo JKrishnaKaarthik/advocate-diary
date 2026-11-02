@@ -22,7 +22,7 @@ export function InboxPage() {
   return (
     <section>
       <header className="page-head">
-        <h1>Client reminders</h1>
+        <h1 data-testid="inbox-heading">Client reminders</h1>
         <p>Hearings in the coming month. Name, case type, time, and how to reach the client.</p>
       </header>
       {error ? <p className="error">{error}</p> : null}
@@ -32,13 +32,13 @@ export function InboxPage() {
           <h2>{week.title}</h2>
           <div className="board">
             {week.rows.map((row) => (
-              <article key={row.id} className="hearing-card">
+              <article key={row.id} className="hearing-card" data-testid="inbox-hearing">
                 <header className="card-top">
                   <time>{shortWhen(row.scheduled_at)}</time>
                   <span className="pill">{row.case_type}</span>
                 </header>
-                <h3>{row.client_name}</h3>
-                <p className="matter">{row.title}{row.case_number ? ` · ${row.case_number}` : ""}</p>
+                <h3 data-testid="inbox-client">{row.client_name}</h3>
+                <p className="matter" data-testid="inbox-matter">{row.title}{row.case_number ? ` · ${row.case_number}` : ""}</p>
                 <dl className="contact-list">
                   <Contact label="Phone">{row.phone}</Contact>
                   <Contact label="Email">{row.email}</Contact>

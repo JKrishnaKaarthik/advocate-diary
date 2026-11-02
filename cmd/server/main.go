@@ -41,6 +41,7 @@ func main() {
 	}
 
 	objects := storage.New(cfg.S3Endpoint, cfg.S3Region, cfg.S3Bucket, cfg.S3AccessKey, cfg.S3SecretKey, cfg.S3PathStyle)
+	objects.SetPublicEndpoint(cfg.S3PublicEndpoint)
 	store := app.NewStore(pool, objects)
 	if err := store.Migrate(ctx); err != nil {
 		log.Fatal(err)

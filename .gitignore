@@ -3,5 +3,7 @@
 .env.*
 !.env.example
 *.pem
+node_modules
 web/node_modules
 web/dist
+ui-tests/target

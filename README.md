@@ -6,15 +6,21 @@ Lawyers do not see each other's records. There is no clerk and no shared chamber
 
 ## Run
 
-PostgreSQL and S3 run locally through Docker. The Go API is the server. The React app proxies `/api` to it.
+PostgreSQL, S3, the Go API, and the built website run through Docker.
 
 ```bash
-docker compose up -d
+docker compose up -d --build
+```
+
+Open http://localhost:8080. Each sign-up is a separate lawyer. With `SMTP_HOST` empty, court reminders are printed in the API log and still land in the inbox.
+
+To run the API and Vite app on the host instead:
+
+```bash
+docker compose up -d postgres minio
 cp .env.example .env
 go run ./cmd/server
 ```
-
-In another terminal:
 
 ```bash
 cd web
@@ -22,7 +28,7 @@ npm install
 npm run dev
 ```
 
-Open http://localhost:5173. Each sign-up is a separate lawyer. With `SMTP_HOST` empty, court reminders are printed in the API log and still land in the inbox.
+Then open http://localhost:5173. The React app proxies `/api` to the Go server.
 
 The design is in [docs/hld.md](docs/hld.md) and [docs/lld.md](docs/lld.md).
 

@@ -13,12 +13,13 @@ type Config struct {
 	SessionSecret string
 	CookieSecure  bool
 	WebRoot       string
-	S3Endpoint    string
-	S3Region      string
-	S3Bucket      string
-	S3AccessKey   string
-	S3SecretKey   string
-	S3PathStyle   bool
+	S3Endpoint       string
+	S3PublicEndpoint string
+	S3Region         string
+	S3Bucket         string
+	S3AccessKey      string
+	S3SecretKey      string
+	S3PathStyle      bool
 	SMTPHost      string
 	SMTPPort      string
 	SMTPUser      string
@@ -34,8 +35,9 @@ func Load() (Config, error) {
 		SessionSecret: os.Getenv("SESSION_SECRET"),
 		CookieSecure:  os.Getenv("COOKIE_SECURE") == "true",
 		WebRoot:       env("WEB_ROOT", "web/dist"),
-		S3Endpoint:    os.Getenv("S3_ENDPOINT"),
-		S3Region:      env("S3_REGION", "us-east-1"),
+		S3Endpoint:       os.Getenv("S3_ENDPOINT"),
+		S3PublicEndpoint: os.Getenv("S3_PUBLIC_ENDPOINT"),
+		S3Region:         env("S3_REGION", "us-east-1"),
 		S3Bucket:      os.Getenv("S3_BUCKET"),
 		S3AccessKey:   os.Getenv("S3_ACCESS_KEY"),
 		S3SecretKey:   os.Getenv("S3_SECRET_KEY"),

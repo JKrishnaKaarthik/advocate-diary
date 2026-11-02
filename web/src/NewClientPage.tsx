@@ -40,7 +40,7 @@ export function NewClientPage() {
     <section>
       <header className="page-head">
         <p className="crumb"><Link to="/clients">Clients</Link></p>
-        <h1>Add a client</h1>
+        <h1 data-testid="new-client-heading">Add a client</h1>
         <p>Name is required. Phone, email, and address can wait.</p>
       </header>
       <form className="card stack" noValidate onSubmit={onSubmit} onInput={fields.onInput}>
@@ -61,8 +61,8 @@ export function NewClientPage() {
         <label>Notes<textarea name="notes" rows={3} /></label>
         {error ? <p className="error">{error}</p> : null}
         <div className="actions">
-          <button type="submit" disabled={pending}>{pending ? "Saving…" : "Save client"}</button>
-          <Link className="button secondary" to="/clients">Cancel</Link>
+          <button type="submit" data-testid="save-client" disabled={pending}>{pending ? "Saving…" : "Save client"}</button>
+          <Link className="button secondary" to="/clients" data-testid="cancel-client">Cancel</Link>
         </div>
       </form>
     </section>

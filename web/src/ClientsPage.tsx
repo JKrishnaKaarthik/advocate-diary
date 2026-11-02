@@ -16,10 +16,10 @@ export function ClientsPage() {
     <section>
       <header className="page-head with-action">
         <div>
-          <h1>Clients</h1>
+          <h1 data-testid="clients-heading">Clients</h1>
           <p>People whose matters you are handling.</p>
         </div>
-        <Link className="button" to="/clients/new">Add client</Link>
+        <Link className="button" to="/clients/new" data-testid="add-client">Add client</Link>
       </header>
       <form className="search" onSubmit={(event) => { event.preventDefault(); load().catch((err) => setError(err.message)); }}>
         <input value={q} onChange={(event) => setQ(event.target.value)} placeholder="Search by name" aria-label="Search clients" />

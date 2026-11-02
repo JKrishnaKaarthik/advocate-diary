@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="InboxShowsHearing" verbose="1">
+  <test name="NextHearingInInbox">
+    <classes>
+      <class name="com.advocatediary.tests.InboxShowsHearingTest"/>
+    </classes>
+  </test>
+</suite>

@@ -58,15 +58,16 @@ function Layout() {
       <aside className="side">
         <p className="mark">Advocate Diary</p>
         <nav>
-          <NavLink to="/" end>Diary</NavLink>
-          <NavLink to="/clients">Clients</NavLink>
-          <NavLink to="/inbox">Inbox{unread > 0 ? <span className="count">{unread}</span> : null}</NavLink>
+          <NavLink to="/" end data-testid="nav-diary">Diary</NavLink>
+          <NavLink to="/clients" data-testid="nav-clients">Clients</NavLink>
+          <NavLink to="/inbox" data-testid="nav-inbox">Inbox{unread > 0 ? <span className="count">{unread}</span> : null}</NavLink>
         </nav>
         <div className="who">
           <strong>{lawyer.name}</strong>
           <span>{lawyer.email}</span>
           <button
             className="text"
+            data-testid="sign-out"
             onClick={async () => {
               await api.signOut();
               setLawyer(null);
@@ -156,9 +157,9 @@ function Auth({ mode }: { mode: "in" | "up" }) {
           <FieldHint text={fields.hints.password} />
         </label>
         {error ? <p className="error">{error}</p> : null}
-        <button type="submit" disabled={pending}>{pending ? "Please wait…" : mode === "up" ? "Create account" : "Sign in"}</button>
+        <button type="submit" data-testid="auth-submit" disabled={pending}>{pending ? "Please wait…" : mode === "up" ? "Create account" : "Sign in"}</button>
         <p className="switch">
-          {mode === "up" ? <Link to="/sign-in">I already have an account</Link> : <Link to="/sign-up">Create an account</Link>}
+          {mode === "up" ? <Link to="/sign-in" data-testid="go-sign-in">I already have an account</Link> : <Link to="/sign-up" data-testid="go-sign-up">Create an account</Link>}
         </p>
       </form>
     </div>

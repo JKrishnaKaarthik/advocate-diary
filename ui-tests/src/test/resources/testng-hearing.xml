@@ -1,0 +1,8 @@
+<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
+<suite name="FixHearingFlow" verbose="1">
+  <test name="SaveHearing">
+    <classes>
+      <class name="com.advocatediary.tests.FixHearingFlowTest"/>
+    </classes>
+  </test>
+</suite>

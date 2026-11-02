@@ -66,7 +66,7 @@ export function ClientPage() {
   return (
     <section>
       <header className="page-head">
-        <h1>{client.full_name}</h1>
+        <h1 data-testid="client-heading">{client.full_name}</h1>
         <p>Client record and the matters tied to them.</p>
       </header>
       <form className="card stack" noValidate onSubmit={save} onInput={clientFields.onInput}>
@@ -102,7 +102,7 @@ export function ClientPage() {
         ))}
       </ul>
       <form className="card stack" noValidate onSubmit={openCase} onInput={caseFields.onInput}>
-        <h2>Open a case</h2>
+        <h2 data-testid="open-case-heading">Open a case</h2>
         <label>
           Title
           <input name="title" />
@@ -126,7 +126,7 @@ export function ClientPage() {
           <label>Opposite party<input name="opposite_party" /></label>
         </div>
         {caseError ? <p className="error">{caseError}</p> : null}
-        <button type="submit">Open case</button>
+        <button type="submit" data-testid="open-case">Open case</button>
       </form>
     </section>
   );

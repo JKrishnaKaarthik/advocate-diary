@@ -1,0 +1,10 @@
+.git
+.next
+node_modules
+web/node_modules
+web/dist
+ui-tests
+*.md
+.env
+.target
+ui-tests/target

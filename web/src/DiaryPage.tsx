@@ -17,7 +17,7 @@ export function DiaryPage() {
   return (
     <section>
       <header className="page-head">
-        <h1>Court diary</h1>
+        <h1 data-testid="diary-heading">Court diary</h1>
         <p>Sittings for the next seven days. Time, matter, and court.</p>
       </header>
       {error ? <p className="error">{error}</p> : null}
@@ -36,11 +36,11 @@ export function DiaryPage() {
           <ul>
             {rows.map((row) => (
               <li key={row.id}>
-                <Link className="slot" to={`/cases/${row.case_id}`}>
+                <Link className="slot" data-testid="diary-slot" to={`/cases/${row.case_id}`}>
                   <time>{clock(row.scheduled_at)}</time>
-                  <strong>{row.client_name}</strong>
-                  <span>{row.title}{row.case_number ? ` · ${row.case_number}` : ""}</span>
-                  <span>{row.court_name} · {row.purpose}</span>
+                  <strong data-testid="diary-client">{row.client_name}</strong>
+                  <span data-testid="diary-matter">{row.title}{row.case_number ? ` · ${row.case_number}` : ""}</span>
+                  <span data-testid="diary-court">{row.court_name} · {row.purpose}</span>
                 </Link>
               </li>
             ))}
