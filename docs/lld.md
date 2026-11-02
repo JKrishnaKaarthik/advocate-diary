@@ -181,7 +181,7 @@ scheduled → cancelled   (hearing no longer scheduled)
 
 1. Require a case whose `owner_id` is the session user.
 2. Reject if the file is over 20 MB.
-3. Reject unless the extension is one of `pdf`, `doc`, `docx`, `jpg`, `jpeg`, `png`, `txt`. A stated content type must match that extension. An empty type or `application/octet-stream` is accepted, because browsers often send that for a valid file. |
+3. Reject unless the extension is `pdf`. A stated content type must be `application/pdf`. An empty type or `application/octet-stream` is accepted, because browsers often send that for a valid file. |
 4. Build the S3 object key as `lawyers/{userId}/cases/{caseId}/{documentId}/{safeName}`.
 5. `PutObject` into the documents bucket.
 6. Insert the `documents` row with that key.
