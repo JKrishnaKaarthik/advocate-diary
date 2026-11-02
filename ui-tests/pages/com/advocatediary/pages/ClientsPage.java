@@ -30,4 +30,20 @@ public class ClientsPage extends BasePage {
         && !currentUrl().contains("/clients/new")
         && shown(heading);
   }
+
+  public ClientsPage waitUntilEmpty() {
+    visible(By.cssSelector("[data-testid='clients-empty'], p.muted"));
+    return this;
+  }
+
+  public boolean isEmpty() {
+    return shown(By.cssSelector("[data-testid='clients-empty'], p.muted")) && !shown(testId("client-row"));
+  }
+
+  public boolean hasClient(String name) {
+    return shown(marked("client-row", "data-name", name))
+        || driver.findElements(By.xpath("//strong[normalize-space()='" + name + "']"))
+            .stream()
+            .anyMatch(el -> el.isDisplayed());
+  }
 }

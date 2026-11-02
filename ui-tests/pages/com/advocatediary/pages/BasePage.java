@@ -3,6 +3,7 @@ package com.advocatediary.pages;
 import java.time.Duration;
 import org.openqa.selenium.By;
 import org.openqa.selenium.Keys;
+import org.openqa.selenium.NoSuchWindowException;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
 import org.openqa.selenium.support.ui.ExpectedConditions;
@@ -26,18 +27,37 @@ public abstract class BasePage {
   }
 
   protected void type(By locator, String value) {
+    focusLastWindow();
     WebElement field = visible(locator);
     field.click();
     field.sendKeys(Keys.chord(Keys.CONTROL, "a"));
     field.sendKeys(Keys.DELETE);
-    if (watchMode()) {
-      for (char c : value.toCharArray()) {
-        field.sendKeys(String.valueOf(c));
-        pause(90);
+    try {
+      if (watchMode()) {
+        for (char c : value.toCharArray()) {
+          field.sendKeys(String.valueOf(c));
+          pause(90);
+        }
+      } else {
+        field.sendKeys(value);
       }
-    } else {
+    } catch (NoSuchWindowException e) {
+      focusLastWindow();
+      field = visible(locator);
       field.sendKeys(value);
     }
+  }
+
+  protected void focusLastWindow() {
+    var handles = driver.getWindowHandles();
+    if (handles.isEmpty()) {
+      return;
+    }
+    String last = handles.iterator().next();
+    for (String handle : handles) {
+      last = handle;
+    }
+    driver.switchTo().window(last);
   }
 
   protected boolean watchMode() {

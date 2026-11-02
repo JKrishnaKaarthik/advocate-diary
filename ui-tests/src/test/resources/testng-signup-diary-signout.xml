@@ -2,7 +2,7 @@
 <suite name="SignupDiarySignOut" verbose="1">
   <test name="SignupClientCaseDiarySignOut">
     <classes>
-      <class name="com.advocatediary.tests.SignupDiarySignOutTest"/>
+      <class name="com.advocatediary.tests.AccountIsolationTest"/>
     </classes>
   </test>
 </suite>

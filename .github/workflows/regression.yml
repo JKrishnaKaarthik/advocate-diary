@@ -1,0 +1,98 @@
+name: Regression
+
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+concurrency:
+  group: regression-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  go-test:
+    name: go-test
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    services:
+      postgres:
+        image: postgres:16-alpine
+        env:
+          POSTGRES_USER: diary
+          POSTGRES_PASSWORD: diary
+          POSTGRES_DB: diary
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd "pg_isready -U diary -d diary"
+          --health-interval 5s
+          --health-timeout 5s
+          --health-retries 10
+    env:
+      DATABASE_URL: postgres://diary:diary@localhost:5432/diary?sslmode=disable
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-go@v5
+        with:
+          go-version-file: go.mod
+          cache: true
+      - name: Run Go tests
+        run: go test ./...
+
+  ui-regression:
+    name: ui-regression
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: "21"
+      - uses: browser-actions/setup-chrome@v1
+      - name: Start stack
+        run: docker compose up -d --build
+      - name: Wait for site
+        run: |
+          for i in $(seq 1 60); do
+            if curl -sf http://localhost:8080 >/dev/null; then
+              exit 0
+            fi
+            sleep 2
+          done
+          docker compose logs
+          exit 1
+      - name: Seed lawyer account
+        run: |
+          code=$(curl -s -o /tmp/signup.json -w "%{http_code}" -X POST http://localhost:8080/api/sign-up \
+            -H "content-type: application/json" \
+            -d '{"name":"lasya","email":"bmeherlasya@gmail.com","password":"123@45678"}')
+          if [ "$code" != "201" ] && [ "$code" != "409" ]; then
+            echo "sign-up returned $code"
+            cat /tmp/signup.json
+            exit 1
+          fi
+      - name: Run UI regression
+        working-directory: ui-tests
+        run: |
+          java -classpath .mvn/wrapper/maven-wrapper.jar \
+            -Dmaven.multiModuleProjectDirectory="$PWD" \
+            org.apache.maven.wrapper.MavenWrapperMain \
+            -B \
+            -Dsurefire.suiteXmlFiles=src/test/resources/testng-ci.xml \
+            -DbaseUrl=http://localhost:8080 \
+            -Dheadless=true \
+            test
+      - name: Upload Surefire reports
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ui-surefire-reports
+          path: ui-tests/target/surefire-reports
+      - name: Stop stack
+        if: always()
+        run: docker compose down -v

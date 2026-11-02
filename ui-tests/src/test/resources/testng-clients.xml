@@ -1,8 +1,0 @@
-<!DOCTYPE suite SYSTEM "https://testng.org/testng-1.0.dtd">
-<suite name="ClientsFlow" verbose="1">
-  <test name="AddClient">
-    <classes>
-      <class name="com.advocatediary.tests.ClientsFlowTest"/>
-    </classes>
-  </test>
-</suite>

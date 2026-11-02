@@ -26,10 +26,10 @@ export function ClientsPage() {
         <button type="submit" className="secondary">Search</button>
       </form>
       {error ? <p className="error">{error}</p> : null}
-      {items.length === 0 ? <p className="muted">No clients yet.</p> : null}
+      {items.length === 0 ? <p className="muted" data-testid="clients-empty">No clients yet.</p> : null}
       <ul className="rows">
         {items.map((client) => (
-          <li key={client.id}>
+          <li key={client.id} data-testid="client-row" data-name={client.full_name}>
             <Link to={`/clients/${client.id}`}>
               <strong>{client.full_name}</strong>
               <span>{[client.phone, client.email].filter(Boolean).join(" · ") || "No contact saved"}</span>

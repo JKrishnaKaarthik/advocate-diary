@@ -3,7 +3,6 @@
   <test name="AllFlows">
     <classes>
       <class name="com.advocatediary.tests.LasyaAccountFlowTest"/>
-      <class name="com.advocatediary.tests.ClientsFlowTest"/>
       <class name="com.advocatediary.tests.OpenCaseFlowTest"/>
       <class name="com.advocatediary.tests.FileUploadFlowTest"/>
       <class name="com.advocatediary.tests.FixHearingFlowTest"/>
@@ -15,6 +14,7 @@
       <class name="com.advocatediary.tests.ClientCaseTest"/>
       <class name="com.advocatediary.tests.SignOutTest"/>
       <class name="com.advocatediary.tests.SignupDiarySignOutTest"/>
+      <class name="com.advocatediary.tests.AccountIsolationTest"/>
     </classes>
   </test>
 </suite>
